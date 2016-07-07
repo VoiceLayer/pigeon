@@ -135,7 +135,7 @@ defmodule Pigeon.APNSWorker do
       {":path", "/3/device/#{notification.device_token}"},
       {"content-length", "#{byte_size(json)}"}]
       |> put_apns_id(notification)
-      |> put_apns_topic(notification)
+      |> put_apns_topic(notification.topic || state.config[:default_topic])
 
     Pigeon.Http2.Client.default().send_request(socket, req_headers, json)
     new_q = Map.put(queue, "#{stream_id}", {notification, on_response})
@@ -150,9 +150,9 @@ defmodule Pigeon.APNSWorker do
     end
   end
 
-  defp put_apns_topic(headers, notification) do
-    case notification.topic do
-      nil   -> headers
+  defp put_apns_topic(headers, topic) do
+    case topic do
+      nil -> headers
       topic -> headers ++ [{"apns-topic", topic}]
     end
   end

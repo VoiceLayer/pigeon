@@ -14,6 +14,7 @@ defmodule Pigeon.APNS.Config do
       cert: cert(config[:cert]),
       certfile: file_path(config[:cert]),
       key: key(config[:key]),
+      default_topic: key(config[:default_topic]),
       keyfile: file_path(config[:key]),
       use_2197: config[:use_2197] || false
     }

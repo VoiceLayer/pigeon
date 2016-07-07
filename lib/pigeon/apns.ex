@@ -96,6 +96,7 @@ defmodule Pigeon.APNS do
       cert: Config.cert(opts[:cert]),
       certfile: Config.file_path(opts[:cert]),
       key: Config.key(opts[:key]),
+      default_topic: Config.key(opts[:default_topic]),
       keyfile: Config.file_path(opts[:key])
     }
     Pigeon.APNSWorker.start_link(config)
